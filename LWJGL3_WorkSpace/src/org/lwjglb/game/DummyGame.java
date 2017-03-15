@@ -16,6 +16,7 @@ import org.lwjglb.engine.Window;
 import org.lwjglb.engine.graph.Camera;
 import org.lwjglb.engine.graph.Renderer;
 import org.lwjglb.engine.graph.lights.DirectionalLight;
+import org.lwjglb.engine.graph.weather.Fog;
 import org.lwjglb.engine.items.SkyBox;
 import org.lwjglb.engine.items.Terrain;
 
@@ -59,10 +60,11 @@ public class DummyGame implements IGameLogic {
         float minY = -0.1f;
         float maxY = 0.1f;
         int textInc = 40;
-        terrain = new Terrain(terrainSize, terrainScale, minY, maxY, "/textures/heightmap.png", "/textures/terrain.png", textInc);
-        //terrain = new Terrain(terrainSize, terrainScale, minY, maxY, "/textures/heightmap_test.png", "/textures/terrain.png", textInc);
+        terrain = new Terrain(terrainSize, terrainScale, minY, maxY, "/textures/heightmap.png", "/textures/terrain.png", "/textures/terrain_NORM.png", textInc);
         scene.setGameItems(terrain.getGameItems());
 
+        scene.setFog(new Fog(true, new Vector3f(0.5f, 0.5f, 0.5f), 0.15f));
+        
         // Setup  SkyBox
         SkyBox skyBox = new SkyBox("/models/skybox.obj", "/textures/skybox.png");
         skyBox.setScale(skyBoxScale);
@@ -146,7 +148,7 @@ public class DummyGame implements IGameLogic {
             }
             sceneLight.getSkyBoxLight().set(0.3f, 0.3f, 0.3f);
         } else if (lightAngle <= -80 || lightAngle >= 80) {
-            float factor = 1 - (float) (Math.abs(lightAngle) - 80) / 10.0f;
+            float factor = 1 - (Math.abs(lightAngle) - 80) / 10.0f;
             sceneLight.getSkyBoxLight().set(factor, factor, factor);
             directionalLight.setIntensity(factor);
             directionalLight.getColor().y = Math.max(factor, 0.9f);

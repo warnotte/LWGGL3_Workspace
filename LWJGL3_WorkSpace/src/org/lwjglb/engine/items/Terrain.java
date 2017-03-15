@@ -35,7 +35,7 @@ public class Terrain {
      * @param textInc
      * @throws Exception
      */
-    public Terrain(int terrainSize, float scale, float minY, float maxY, String heightMapFile, String textureFile, int textInc) throws Exception {
+    public Terrain(int terrainSize, float scale, float minY, float maxY, String heightMapFile, String textureFile, String textureFileNormal, int textInc) throws Exception {
         this.terrainSize = terrainSize;
         gameItems = new GameItem[terrainSize * terrainSize];
 
@@ -51,12 +51,12 @@ public class Terrain {
         verticesPerCol = width - 1;
         verticesPerRow = height - 1;
 
-        heightMapMesh = new HeightMapMesh(minY, maxY, buf, width, height, textureFile, textInc);
+        heightMapMesh = new HeightMapMesh(minY, maxY, buf, width, height, textureFile, textureFileNormal, textInc);
         boundingBoxes = new Box2D[terrainSize][terrainSize];
         for (int row = 0; row < terrainSize; row++) {
             for (int col = 0; col < terrainSize; col++) {
-                float xDisplacement = (col - ((float) terrainSize - 1) / (float) 2) * scale * HeightMapMesh.getXLength();
-                float zDisplacement = (row - ((float) terrainSize - 1) / (float) 2) * scale * HeightMapMesh.getZLength();
+                float xDisplacement = (col - ((float) terrainSize - 1) / 2) * scale * HeightMapMesh.getXLength();
+                float zDisplacement = (row - ((float) terrainSize - 1) / 2) * scale * HeightMapMesh.getZLength();
 
                 GameItem terrainBlock = new GameItem(heightMapMesh.getMesh());
                 terrainBlock.setScale(scale);
@@ -95,8 +95,8 @@ public class Terrain {
 
     protected Vector3f[] getTriangle(Vector3f position, Box2D boundingBox, GameItem terrainBlock) {
         // Get the column and row of the heightmap associated to the current position
-        float cellWidth = boundingBox.width / (float) verticesPerCol;
-        float cellHeight = boundingBox.height / (float) verticesPerRow;
+        float cellWidth = boundingBox.width / verticesPerCol;
+        float cellHeight = boundingBox.height / verticesPerRow;
         int col = (int) ((position.x - boundingBox.x) / cellWidth);
         int row = (int) ((position.z - boundingBox.y) / cellHeight);
 

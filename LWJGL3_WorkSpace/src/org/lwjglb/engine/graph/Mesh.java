@@ -107,10 +107,17 @@ public class Mesh {
     private void initRender() {
         Texture texture = material.getTexture();
         if (texture != null) {
-            // Activate firs texture bank
+            // Activate first texture bank
             glActiveTexture(GL_TEXTURE0);
             // Bind the texture
             glBindTexture(GL_TEXTURE_2D, texture.getId());
+        }
+        Texture normalMap = material.getNormalMap();
+        if ( normalMap != null ) {
+            // Activate first texture bank
+            glActiveTexture(GL_TEXTURE1);
+            // Bind the texture
+            glBindTexture(GL_TEXTURE_2D, normalMap.getId());
         }
 
         // Draw the mesh
@@ -119,7 +126,7 @@ public class Mesh {
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
     }
-
+    
     private void endRender() {
         // Restore state
         glDisableVertexAttribArray(0);
@@ -132,15 +139,15 @@ public class Mesh {
 
     public void render() {
         initRender();
-
+        
         glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
 
         endRender();
     }
-
+    
     public void renderList(List<GameItem> gameItems, Consumer<GameItem> consumer) {
         initRender();
-
+        
         for (GameItem gameItem : gameItems) {
             // Set up data requiered by gameItem
             consumer.accept(gameItem);
