@@ -1,6 +1,5 @@
 package org.lwjglb.engine;
 
-import java.nio.ByteBuffer;
 import static org.lwjgl.glfw.GLFW.*;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
@@ -29,10 +28,6 @@ public class Window {
     private boolean resized;
 
     private boolean vSync;
-
-    public Window(String title, boolean vSync) {
-        this(title, 0, 0, vSync);
-    }
 
     public Window(String title, int width, int height, boolean vSync) {
         this.title = title;
@@ -70,8 +65,8 @@ public class Window {
             maximized = true;
         }
 
-        windowHandle = glfwCreateWindow(width, height, title, NULL, NULL);
         // Create the window
+        windowHandle = glfwCreateWindow(width, height, title, NULL, NULL);
         if (windowHandle == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }

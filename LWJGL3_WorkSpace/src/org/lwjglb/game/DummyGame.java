@@ -37,6 +37,8 @@ public class DummyGame implements IGameLogic {
 
     private static final float CAMERA_POS_STEP = 0.05f;
 
+    private Terrain terrain;
+    
     public DummyGame() {
         renderer = new Renderer();
         camera = new Camera();
@@ -50,13 +52,15 @@ public class DummyGame implements IGameLogic {
 
         scene = new Scene();
 
-        float skyBoxScale = 50.0f;
+        float skyBoxScale = 50.0f;        
         float terrainScale = 10;
+        //int terrainSize = 3;
         int terrainSize = 3;
         float minY = -0.1f;
         float maxY = 0.1f;
         int textInc = 40;
-        Terrain terrain = new Terrain(terrainSize, terrainScale, minY, maxY, "/textures/heightmap.png", "/textures/terrain.png", textInc);
+        terrain = new Terrain(terrainSize, terrainScale, minY, maxY, "/textures/heightmap.png", "/textures/terrain.png", textInc);
+        //terrain = new Terrain(terrainSize, terrainScale, minY, maxY, "/textures/heightmap_test.png", "/textures/terrain.png", textInc);
         scene.setGameItems(terrain.getGameItems());
 
         // Setup  SkyBox
@@ -71,9 +75,9 @@ public class DummyGame implements IGameLogic {
         hud = new Hud("DEMO");
 
         camera.getPosition().x = 0.0f;
+        camera.getPosition().y = 5.0f;
         camera.getPosition().z = 0.0f;
-        camera.getPosition().y = -0.2f;
-        camera.getRotation().x = 10.f;
+        camera.getRotation().x = 90;
     }
 
     private void setupLights() {
@@ -122,7 +126,14 @@ public class DummyGame implements IGameLogic {
         }
 
         // Update camera position
-        camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP, cameraInc.z * CAMERA_POS_STEP);
+        Vector3f prevPos = new Vector3f(camera.getPosition());
+        camera.movePosition(cameraInc.x * CAMERA_POS_STEP, cameraInc.y * CAMERA_POS_STEP, cameraInc.z * CAMERA_POS_STEP);        
+        // Check if there has been a collision. If true, set the y position to
+        // the maximum height
+        float height = terrain.getHeight(camera.getPosition());
+        if ( camera.getPosition().y <= height )  {
+            camera.setPosition(prevPos.x, prevPos.y, prevPos.z);
+        }
 
         // Update directional light direction, intensity and colour
         SceneLight sceneLight = scene.getSceneLight();
@@ -162,9 +173,7 @@ public class DummyGame implements IGameLogic {
     public void cleanup() {
         renderer.cleanup();
         scene.cleanup();
-        if (hud != null) {
-            hud.cleanup();
-        }
+        hud.cleanup();
     }
 
 }
