@@ -1,5 +1,4 @@
-package org.lwjglb.Engine.graph;
-
+package org.lwjglb.engine.graph;
 
 import org.joml.Vector3f;
 
@@ -22,6 +21,11 @@ public class Material {
         this();
         this.colour = colour;
         this.reflectance = reflectance;
+    }
+
+    public Material(Texture texture) {
+        this();
+        this.texture = texture;
     }
 
     public Material(Texture texture, float reflectance) {

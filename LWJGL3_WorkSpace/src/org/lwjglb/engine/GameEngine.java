@@ -1,5 +1,4 @@
-package org.lwjglb.Engine;
-
+package org.lwjglb.engine;
 
 public class GameEngine implements Runnable {
 

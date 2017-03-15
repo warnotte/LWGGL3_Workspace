@@ -1,5 +1,4 @@
-package org.lwjglb.Engine.graph;
-
+package org.lwjglb.engine.graph;
 
 import org.joml.Vector3f;
 
