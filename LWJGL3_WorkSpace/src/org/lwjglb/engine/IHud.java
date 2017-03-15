@@ -1,5 +1,7 @@
 package org.lwjglb.engine;
 
+import org.lwjglb.engine.items.GameItem;
+
 public interface IHud {
 
     GameItem[] getGameItems();

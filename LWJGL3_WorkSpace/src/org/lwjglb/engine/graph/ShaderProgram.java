@@ -1,5 +1,8 @@
 package org.lwjglb.engine.graph;
 
+import org.lwjglb.engine.graph.lights.SpotLight;
+import org.lwjglb.engine.graph.lights.PointLight;
+import org.lwjglb.engine.graph.lights.DirectionalLight;
 import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -187,6 +190,7 @@ public class ShaderProgram {
         if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
             System.err.println("Warning validating Shader code: " + glGetProgramInfoLog(programId, 1024));
         }
+
     }
 
     public void bind() {

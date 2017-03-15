@@ -2,9 +2,9 @@ package org.lwjglb.game;
 
 import java.awt.Font;
 import org.joml.Vector3f;
-import org.lwjglb.engine.GameItem;
+import org.lwjglb.engine.items.GameItem;
 import org.lwjglb.engine.IHud;
-import org.lwjglb.engine.TextItem;
+import org.lwjglb.engine.items.TextItem;
 import org.lwjglb.engine.Window;
 import org.lwjglb.engine.graph.FontTexture;
 import org.lwjglb.engine.graph.Material;

@@ -1,5 +1,7 @@
 package org.lwjglb.engine;
 
+import org.lwjglb.engine.items.SkyBox;
+import org.lwjglb.engine.items.GameItem;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +35,12 @@ public class Scene {
                 meshMap.put(mesh, list);
             }
             list.add(gameItem);
+        }
+    }
+
+    public void cleanup() {
+        for (Mesh mesh : meshMap.keySet()) {
+            mesh.cleanUp();
         }
     }
 

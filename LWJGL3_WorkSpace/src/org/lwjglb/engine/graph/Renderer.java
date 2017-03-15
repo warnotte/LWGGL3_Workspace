@@ -1,16 +1,19 @@
 package org.lwjglb.engine.graph;
 
+import org.lwjglb.engine.graph.lights.SpotLight;
+import org.lwjglb.engine.graph.lights.PointLight;
+import org.lwjglb.engine.graph.lights.DirectionalLight;
 import java.util.List;
 import java.util.Map;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import static org.lwjgl.opengl.GL11.*;
-import org.lwjglb.engine.GameItem;
+import org.lwjglb.engine.items.GameItem;
 import org.lwjglb.engine.IHud;
 import org.lwjglb.engine.Scene;
 import org.lwjglb.engine.SceneLight;
-import org.lwjglb.engine.SkyBox;
+import org.lwjglb.engine.items.SkyBox;
 import org.lwjglb.engine.Utils;
 import org.lwjglb.engine.Window;
 
@@ -133,7 +136,7 @@ public class Renderer {
         viewMatrix.m32(0);
         Matrix4f modelViewMatrix = transformation.buildModelViewMatrix(skyBox, viewMatrix);
         skyBoxShaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
-        skyBoxShaderProgram.setUniform("ambientLight", scene.getSceneLight().getAmbientLight());
+        skyBoxShaderProgram.setUniform("ambientLight", scene.getSceneLight().getSkyBoxLight());
 
         scene.getSkyBox().getMesh().render();
 

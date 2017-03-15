@@ -2,7 +2,7 @@ package org.lwjglb.engine.graph;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjglb.engine.GameItem;
+import org.lwjglb.engine.items.GameItem;
 
 public class Transformation {
 

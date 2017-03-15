@@ -1,14 +1,16 @@
 package org.lwjglb.engine;
 
 import org.joml.Vector3f;
-import org.lwjglb.engine.graph.DirectionalLight;
-import org.lwjglb.engine.graph.PointLight;
-import org.lwjglb.engine.graph.SpotLight;
+import org.lwjglb.engine.graph.lights.DirectionalLight;
+import org.lwjglb.engine.graph.lights.PointLight;
+import org.lwjglb.engine.graph.lights.SpotLight;
 
 public class SceneLight {
 
     private Vector3f ambientLight;
     
+    private Vector3f skyBoxLight;
+
     private PointLight[] pointLightList;
     
     private SpotLight[] spotLightList;
@@ -45,6 +47,14 @@ public class SceneLight {
 
     public void setDirectionalLight(DirectionalLight directionalLight) {
         this.directionalLight = directionalLight;
+    }
+
+    public Vector3f getSkyBoxLight() {
+        return skyBoxLight;
+    }
+
+    public void setSkyBoxLight(Vector3f skyBoxLight) {
+        this.skyBoxLight = skyBoxLight;
     }
     
 }
