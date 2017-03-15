@@ -22,14 +22,13 @@ public class HeightMapMesh {
     
     private final float[][] heightArray;
     
-    public HeightMapMesh(float minY, float maxY, ByteBuffer heightMapImage, int width, int height, String textureFile, String normaltextureFile, int textInc) throws Exception {
+    public HeightMapMesh(float minY, float maxY, ByteBuffer heightMapImage, int width, int height, String textureFile, int textInc) throws Exception {
         this.minY = minY;
         this.maxY = maxY;
         
         heightArray = new float[height][width];
         
         Texture texture = new Texture(textureFile);
-        Texture texturenormal = new Texture(normaltextureFile);
 
         float incx = getXLength() / (width - 1);
         float incz = getZLength() / (height - 1);
@@ -48,8 +47,8 @@ public class HeightMapMesh {
                 positions.add(STARTZ + row * incz); //z
 
                 // Set texture coordinates
-                textCoords.add((float) textInc * (float) col / width);
-                textCoords.add((float) textInc * (float) row / height);
+                textCoords.add((float) textInc * (float) col / (float) width);
+                textCoords.add((float) textInc * (float) row / (float) height);
 
                 // Create indices
                 if (col < width - 1 && row < height - 1) {
@@ -74,8 +73,6 @@ public class HeightMapMesh {
         float[] normalsArr = calcNormals(posArr, width, height);
         this.mesh = new Mesh(posArr, textCoordsArr, normalsArr, indicesArr);
         Material material = new Material(texture, 0.0f);
-        if (texturenormal!=null)
-        	material.setNormalMap(texturenormal);
         mesh.setMaterial(material);
     }
 
@@ -174,13 +171,18 @@ public class HeightMapMesh {
     }
 
     private float getHeight(int x, int z, int width, ByteBuffer buffer) {
+        int argb = getRGB(x, z, width, buffer);
+        return this.minY + Math.abs(this.maxY - this.minY) * ((float) argb / (float) MAX_COLOUR);
+    }
+    
+    public static int getRGB(int x, int z, int width, ByteBuffer buffer) {
         byte r = buffer.get(x * 4 + 0 + z * 4 * width);
         byte g = buffer.get(x * 4 + 1 + z * 4 * width);
         byte b = buffer.get(x * 4 + 2 + z * 4 * width);
         byte a = buffer.get(x * 4 + 3 + z * 4 * width);
         int argb = ((0xFF & a) << 24) | ((0xFF & r) << 16)
                 | ((0xFF & g) << 8) | (0xFF & b);
-        return this.minY + Math.abs(this.maxY - this.minY) * ((float) argb / (float) MAX_COLOUR);
+        return argb;        
     }
 
 }

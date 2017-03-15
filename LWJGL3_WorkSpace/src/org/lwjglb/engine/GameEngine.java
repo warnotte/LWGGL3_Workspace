@@ -1,5 +1,7 @@
 package org.lwjglb.engine;
 
+import org.lwjglb.engine.sound.SoundManager;
+
 public class GameEngine implements Runnable {
 
     public static final int TARGET_FPS = 75;
@@ -16,13 +18,20 @@ public class GameEngine implements Runnable {
 
     private final MouseInput mouseInput;
 
-    public GameEngine(String windowTitle, boolean vSync, IGameLogic gameLogic) throws Exception {
-        this(windowTitle, 0, 0, vSync, gameLogic);
+    private double lastFps;
+    
+    private int fps;
+    
+    private String windowTitle;
+    
+    public GameEngine(String windowTitle, boolean vSync, Window.WindowOptions opts, IGameLogic gameLogic) throws Exception {
+        this(windowTitle, 0, 0, vSync, opts, gameLogic);
     }
 
-    public GameEngine(String windowTitle, int width, int height, boolean vSync, IGameLogic gameLogic) throws Exception {
+    public GameEngine(String windowTitle, int width, int height, boolean vSync, Window.WindowOptions opts, IGameLogic gameLogic) throws Exception {
+        this.windowTitle = windowTitle;
         gameLoopThread = new Thread(this, "GAME_LOOP_THREAD");
-        window = new Window(windowTitle, width, height, vSync);
+        window = new Window(windowTitle, width, height, vSync, opts);
         mouseInput = new MouseInput();
         this.gameLogic = gameLogic;
         timer = new Timer();
@@ -54,6 +63,8 @@ public class GameEngine implements Runnable {
         timer.init();
         mouseInput.init(window);
         gameLogic.init(window);
+        lastFps = timer.getTime();
+        fps = 0;
     }
 
     protected void gameLoop() {
@@ -82,7 +93,7 @@ public class GameEngine implements Runnable {
     }
 
     protected void cleanup() {
-        gameLogic.cleanup();                
+        gameLogic.cleanup();
     }
     
     private void sync() {
@@ -102,11 +113,18 @@ public class GameEngine implements Runnable {
     }
 
     protected void update(float interval) {
-        gameLogic.update(interval, mouseInput);
+        gameLogic.update(interval, mouseInput, window);
     }
 
     protected void render() {
+        if ( window.getWindowOptions().showFps && timer.getLastLoopTime() - lastFps > 1 ) {
+            lastFps = timer.getLastLoopTime();
+            window.setWindowTitle(windowTitle + " - " + fps + " FPS");
+            fps = 0;
+        }
+        fps++;
         gameLogic.render(window);
         window.update();
     }
+
 }

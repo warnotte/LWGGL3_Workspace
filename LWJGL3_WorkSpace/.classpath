@@ -11,5 +11,11 @@
 	<classpathentry kind="lib" path="libs/LWGJL/lwjgl-natives-windows.jar"/>
 	<classpathentry kind="lib" path="libs/LWGJL/joml-1.9.2.jar"/>
 	<classpathentry kind="lib" path="libs/TWL.jar"/>
+	<classpathentry kind="lib" path="libs/LWGJL/lwjgl-openal-natives-windows.jar"/>
+	<classpathentry kind="lib" path="libs/LWGJL/lwjgl-openal.jar"/>
+	<classpathentry kind="lib" path="libs/LWGJL/lwjgl-stb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="libs/LWGJL/lwjgl-stb.jar"/>
+	<classpathentry kind="lib" path="libs/LWGJL/lwjgl-nanovg-natives-windows.jar"/>
+	<classpathentry kind="lib" path="libs/LWGJL/lwjgl-nanovg.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
