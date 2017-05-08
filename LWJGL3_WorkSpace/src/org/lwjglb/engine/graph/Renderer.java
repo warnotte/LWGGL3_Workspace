@@ -54,7 +54,8 @@ public class Renderer {
     }
 
     public void init(Window window) throws Exception {
-        shadowRenderer.init(window);
+    	shadowRenderer.init(window);
+    	
         setupSkyBoxShader();
         setupSceneShader();
         setupParticlesShader();
